@@ -36,8 +36,6 @@ in
   ];
 
   programs.neovim = {
-    defaultEditor = true;
-
     enable = true;
 
     extraLuaConfig = ''

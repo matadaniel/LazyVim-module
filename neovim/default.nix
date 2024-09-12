@@ -7,9 +7,33 @@
 let
 in
 {
-  imports =
-    map (extra: ./extras/${builtins.replaceStrings [ "." ] [ "/" ] extra}.nix) extras
-    ++ map (config: ./config/${config}) configs;
+  imports = [
+    ./extras/coding/mini-surround.nix
+    ./extras/coding/yanky.nix
+
+    ./extras/editor/dial.nix
+    ./extras/editor/inc-rename.nix
+
+    ./extras/formatting/prettier.nix
+
+    ./extras/lang/astro.nix
+    ./extras/lang/clangd.nix
+    ./extras/lang/json.nix
+    ./extras/lang/markdown.nix
+    ./extras/lang/nix.nix
+    ./extras/lang/svelte.nix
+    ./extras/lang/tailwind.nix
+    ./extras/lang/typescript.nix
+
+    ./extras/linting/eslint.nix
+
+    ./extras/test/core.nix
+
+    ./extras/ui/mini-animate.nix
+
+    ./extras/util/dot.nix
+    ./extras/util/mini-hipatterns.nix
+  ];
 
   programs.neovim = {
     defaultEditor = true;

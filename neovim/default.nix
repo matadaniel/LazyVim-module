@@ -1,3 +1,4 @@
+self:
 {
   config,
   inputs,
@@ -12,7 +13,7 @@ let
   cfg = config.programs.lazyvim;
 in
 {
-  imports = [
+  imports = map (module: import module self) [
     ./extras/coding/mini-surround.nix
     ./extras/coding/yanky.nix
 

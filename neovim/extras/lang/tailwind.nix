@@ -1,3 +1,4 @@
+self:
 { inputs, pkgs, ... }:
 {
   programs.neovim = {

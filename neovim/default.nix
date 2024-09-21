@@ -237,14 +237,5 @@ in
             }
         );
     };
-
-    xdg.configFile = builtins.listToAttrs (
-      map (config: {
-        name = "nvim/lua/plugins/${config}.lua";
-        value = {
-          source = ./config/${config}/init.lua;
-        };
-      }) configs
-    );
   };
 }

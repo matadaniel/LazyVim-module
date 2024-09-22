@@ -12,7 +12,7 @@
     {
       homeManagerModules = {
         default = self.homeManagerModules.lazyvim;
-        lazyvim = import ./neovim self;
+        lazyvim = import ./lazyvim self;
       };
     };
 }

@@ -12,8 +12,6 @@ let
   cfg = config.programs.lazyvim;
 in
 {
-  imports = [ ./typescript.nix ];
-
   options.programs.lazyvim.extras.lang.astro = {
     enable = mkEnableOption "the lang.astro extra";
   };

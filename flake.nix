@@ -8,11 +8,27 @@
   };
 
   outputs =
-    { self, ... }:
+    {
+      nixpkgs,
+      self,
+      systems,
+      ...
+    }:
     {
       homeManagerModules = {
         default = self.homeManagerModules.lazyvim;
         lazyvim = import ./lazyvim self;
       };
+
+      packages = nixpkgs.lib.genAttrs (import systems) (
+        system:
+        let
+          inherit (import nixpkgs { inherit system; }) callPackage;
+        in
+        {
+          astro-ts-plugin = callPackage ./pkgs/astro-ts-plugin { };
+          typescript-svelte-plugin = callPackage ./pkgs/typescript-svelte-plugin { };
+        }
+      );
     };
 }

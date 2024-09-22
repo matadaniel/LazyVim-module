@@ -20,7 +20,11 @@ in
     programs.neovim = {
       extraPackages = [ pkgs.nodePackages."@astrojs/language-server" ];
 
-      plugins = [ (pkgs.vimPlugins.nvim-treesitter.withPlugins (plugins: [ plugins.astro ])) ];
+      plugins = [
+        (pkgs.vimPlugins.nvim-treesitter.withPlugins (
+          plugins: builtins.attrValues { inherit (plugins) astro css; }
+        ))
+      ];
     };
 
     xdg.configFile."nvim/lua/plugins/astro.lua".text = # lua

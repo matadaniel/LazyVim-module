@@ -28,6 +28,7 @@
         {
           astro-ts-plugin = callPackage ./pkgs/astro-ts-plugin { };
           typescript-svelte-plugin = callPackage ./pkgs/typescript-svelte-plugin { };
+          vtsls = callPackage ./pkgs/vtsls { };
         }
       );
     };

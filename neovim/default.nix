@@ -81,7 +81,25 @@ in
         		{ "williamboman/mason.nvim", enabled = false },
             ${
               builtins.concatStringsSep "\n    " (
-                map (extra: "{ import = \"lazyvim.plugins.extras.${extra}\" },") extras
+                map (extra: "{ import = \"lazyvim.plugins.${extra}\" },") (
+                  let
+                    enabledOptions =
+                      path: options:
+                      builtins.concatMap (
+                        name:
+                        let
+                          v = options.${name};
+                        in
+                        if builtins.isAttrs v then
+                          enabledOptions (path + "." + name) v
+                        else if name == "enable" && v then
+                          [ path ]
+                        else
+                          [ ]
+                      ) (builtins.attrNames options);
+                  in
+                  enabledOptions "extras" cfg.extras
+                )
               )
             }
         		-- import/override with your plugins

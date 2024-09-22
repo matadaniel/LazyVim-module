@@ -1,11 +1,28 @@
 self:
-{ pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkEnableOption;
+
+  cfg = config.programs.lazyvim;
+in
 {
   imports = [ ./typescript.nix ];
 
-  programs.neovim = {
-    extraPackages = [ pkgs.nodePackages.svelte-language-server ];
+  options.programs.lazyvim.extras.lang.svelte = {
+    enable = mkEnableOption "the lang.svelte extra";
+  };
 
-    plugins = [ (pkgs.vimPlugins.nvim-treesitter.withPlugins (plugins: [ plugins.svelte ])) ];
+  config = mkIf cfg.extras.lang.svelte.enable {
+    programs.neovim = {
+      extraPackages = [ pkgs.nodePackages.svelte-language-server ];
+
+      plugins = [ (pkgs.vimPlugins.nvim-treesitter.withPlugins (plugins: [ plugins.svelte ])) ];
+    };
   };
 }

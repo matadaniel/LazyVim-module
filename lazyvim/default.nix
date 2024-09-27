@@ -78,29 +78,29 @@ in
         		{ "nvim-telescope/telescope-fzf-native.nvim", enabled = true },
         		{ "williamboman/mason-lspconfig.nvim", enabled = false },
         		{ "williamboman/mason.nvim", enabled = false },
-            ${
-              builtins.concatStringsSep "\n    " (
-                map (extra: "{ import = \"lazyvim.plugins.${extra}\" },") (
-                  let
-                    enabledOptions =
-                      path: options:
-                      builtins.concatMap (
-                        name:
-                        let
-                          v = options.${name};
-                        in
-                        if builtins.isAttrs v then
-                          enabledOptions (path + "." + name) v
-                        else if name == "enable" && v then
-                          [ path ]
-                        else
-                          [ ]
-                      ) (builtins.attrNames options);
-                  in
-                  enabledOptions "extras" cfg.extras
-                )
+        		${
+            builtins.concatStringsSep "\n\t\t" (
+              map (extra: "{ import = \"lazyvim.plugins.${extra}\" },") (
+                let
+                  enabledOptions =
+                    path: options:
+                    builtins.concatMap (
+                      name:
+                      let
+                        v = options.${name};
+                      in
+                      if builtins.isAttrs v then
+                        enabledOptions (path + "." + name) v
+                      else if name == "enable" && v then
+                        [ path ]
+                      else
+                        [ ]
+                    ) (builtins.attrNames options);
+                in
+                enabledOptions "extras" cfg.extras
               )
-            }
+            )
+          }
         		-- import/override with your plugins
         		{ import = "plugins" },
         		{
@@ -135,28 +135,28 @@ in
         				"zipPlugin",
         			},
         			paths = {
-                ${
-                  let
-                    wrapPlugins =
-                      plugins:
-                      map (plugin: {
-                        key = plugin.outPath;
-                        deps = plugin.dependencies or [ ];
-                      }) plugins;
-                  in
-                  builtins.concatStringsSep "\n        " (
-                    map ({ key, deps }: "\"${key}\",") (
-                      builtins.genericClosure {
-                        startSet = wrapPlugins (
-                          builtins.concatMap (
-                            plugin: plugin.dependencies or [ ]
-                          ) config.programs.neovim.finalPackage.passthru.packpathDirs.myNeovimPackages.start
-                        );
-                        operator = { key, deps }: wrapPlugins deps;
-                      }
-                    )
-                  )
-                }
+        				${
+              let
+                wrapPlugins =
+                  plugins:
+                  map (plugin: {
+                    key = plugin.outPath;
+                    deps = plugin.dependencies or [ ];
+                  }) plugins;
+              in
+              builtins.concatStringsSep "\n\t\t\t\t" (
+                map ({ key, deps }: "\"${key}\",") (
+                  builtins.genericClosure {
+                    startSet = wrapPlugins (
+                      builtins.concatMap (
+                        plugin: plugin.dependencies or [ ]
+                      ) config.programs.neovim.finalPackage.passthru.packpathDirs.myNeovimPackages.start
+                    );
+                    operator = { key, deps }: wrapPlugins deps;
+                  }
+                )
+              )
+            }
         			},
         		},
         	},

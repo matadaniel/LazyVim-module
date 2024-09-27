@@ -49,29 +49,27 @@ in
       enable = true;
 
       extraLuaConfig = ''
-        vim.env.MASON = "${
-          pkgs.linkFarm "mason" (
-            map
-              (
-                { name, path }:
-                {
-                  name = "packages/" + name;
-                  path = path + "/lib";
+        ${
+          let
+            inherit (cfg.extras.lang) astro svelte;
+          in
+          lib.optionalString (astro.enable || svelte.enable)
+            "vim.env.MASON = \"${
+              pkgs.linkFarm "mason" (
+                let
+                  selfPkgs = self.packages.${pkgs.stdenv.hostPlatform.system};
+                in
+                lib.optional astro.enable {
+                  name = "packages/astro-language-server/node_modules/@astrojs/ts-plugin";
+                  path = selfPkgs.astro-ts-plugin;
+                }
+                ++ lib.optional svelte.enable {
+                  name = "packages/svelte-language-server/node_modules/typescript-svelte-plugin";
+                  path = selfPkgs.typescript-svelte-plugin;
                 }
               )
-              [
-                {
-                  name = "astro-language-server";
-                  path = pkgs."@astrojs/ts-plugin";
-                }
-                {
-                  name = "svelte-language-server";
-                  path = pkgs.typescript-svelte-plugin;
-                }
-              ]
-          )
-        }"
-
+            }\"\n"
+        }
         require("lazy").setup({
         	dev = { path = vim.api.nvim_list_runtime_paths()[1] .. "/pack/myNeovimPackages/start", patterns = { "." } },
         	spec = {

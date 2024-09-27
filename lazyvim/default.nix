@@ -189,6 +189,7 @@ in
             luvit-meta
             mini-ai
             mini-icons
+            mini-pairs
             neo-tree-nvim
             noice-nvim
             nui-nvim
@@ -250,7 +251,6 @@ in
               }
             )
             {
-              mini-pairs = "mini.pairs";
               ts-comments-nvim = "ts-comments.nvim";
             }
         );

@@ -19,7 +19,10 @@ in
 
   config = mkIf cfg.extras.lang.markdown.enable {
     programs.neovim = {
-      extraPackages = builtins.attrValues { inherit (pkgs) markdown-toc markdownlint-cli2 marksman; };
+      extraPackages = builtins.attrValues {
+        inherit (pkgs) markdownlint-cli2 marksman;
+        inherit (self.packages.${pkgs.stdenv.hostPlatform.system}) markdown-toc;
+      };
 
       plugins = builtins.attrValues {
         inherit (pkgs.vimPlugins) markdown-preview-nvim render-markdown-nvim;

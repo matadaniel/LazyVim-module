@@ -19,13 +19,7 @@ in
 
   config = mkIf cfg.extras.ui.mini-animate.enable {
     programs.neovim = {
-      plugins = [
-        (pkgs.vimUtils.buildVimPlugin {
-          pname = "mini.animate";
-          version = "2024-06-23";
-          src = inputs.mini-animate;
-        })
-      ];
+      plugins = [ pkgs.vimPlugins.mini-animate ];
     };
   };
 }

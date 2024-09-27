@@ -19,8 +19,9 @@ in
   config = mkIf cfg.extras.util.dot.enable {
     programs.neovim = {
       extraPackages = [
-        pkgs.nodePackages.bash-language-server
-        pkgs.shellcheck
+        pkgs.bash-language-server
+        # shellcheck included in bash-language-server
+        # pkgs.shellcheck
       ];
 
       plugins = [

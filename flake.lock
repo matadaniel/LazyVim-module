@@ -2,11 +2,11 @@
   "nodes": {
     "nixpkgs": {
       "locked": {
-        "lastModified": 1726755586,
-        "narHash": "sha256-PmUr/2GQGvFTIJ6/Tvsins7Q43KTMvMFhvG6oaYK+Wk=",
+        "lastModified": 1727348695,
+        "narHash": "sha256-J+PeFKSDV+pHL7ukkfpVzCOO7mBSrrpJ3svwBFABbhI=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "c04d5652cfa9742b1d519688f65d1bbccea9eb7e",
+        "rev": "1925c603f17fc89f4c8f6bf6f631a802ad85d784",
         "type": "github"
       },
       "original": {
@@ -19,7 +19,8 @@
     "root": {
       "inputs": {
         "nixpkgs": "nixpkgs",
-        "systems": "systems"
+        "systems": "systems",
+        "tailwindcss-colorizer-cmp-nvim": "tailwindcss-colorizer-cmp-nvim"
       }
     },
     "systems": {
@@ -34,6 +35,22 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default-linux",
+        "type": "github"
+      }
+    },
+    "tailwindcss-colorizer-cmp-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1711194583,
+        "narHash": "sha256-PIkfJzLt001TojAnE/rdRhgVEwSvCvUJm/vNPLSWjpY=",
+        "owner": "roobert",
+        "repo": "tailwindcss-colorizer-cmp.nvim",
+        "rev": "3d3cd95e4a4135c250faf83dd5ed61b8e5502b86",
+        "type": "github"
+      },
+      "original": {
+        "owner": "roobert",
+        "repo": "tailwindcss-colorizer-cmp.nvim",
         "type": "github"
       }
     }

@@ -184,6 +184,7 @@ in
             indent-blankline-nvim
             lazy-nvim
             lazydev-nvim
+            LazyVim
             lualine-nvim
             neo-tree-nvim
             noice-nvim
@@ -246,7 +247,6 @@ in
               }
             )
             {
-              LazyVim = "LazyVim";
               luvit-meta = "luvit-meta";
               mini-ai = "mini.ai";
               mini-icons = "mini.icons";

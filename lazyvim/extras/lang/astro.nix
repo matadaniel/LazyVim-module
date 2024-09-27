@@ -18,7 +18,7 @@ in
 
   config = mkIf cfg.extras.lang.astro.enable {
     programs.neovim = {
-      extraPackages = [ pkgs.nodePackages."@astrojs/language-server" ];
+      extraPackages = [ pkgs.astro-language-server ];
 
       plugins = [
         (pkgs.vimPlugins.nvim-treesitter.withPlugins (

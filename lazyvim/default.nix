@@ -188,6 +188,7 @@ in
             lualine-nvim
             luvit-meta
             mini-ai
+            mini-icons
             neo-tree-nvim
             noice-nvim
             nui-nvim
@@ -249,7 +250,6 @@ in
               }
             )
             {
-              mini-icons = "mini.icons";
               mini-pairs = "mini.pairs";
               ts-comments-nvim = "ts-comments.nvim";
             }

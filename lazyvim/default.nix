@@ -165,95 +165,81 @@ in
 
       extraPackages = builtins.attrValues { inherit (pkgs) lua-language-server shfmt stylua; };
 
-      plugins =
-        builtins.attrValues {
-          inherit (pkgs.vimPlugins)
-            bufferline-nvim
-            catppuccin-nvim
-            cmp-buffer
-            cmp-nvim-lsp
-            cmp-path
-            conform-nvim
-            dashboard-nvim
-            dressing-nvim
-            flash-nvim
-            friendly-snippets
-            gitsigns-nvim
-            grug-far-nvim
-            indent-blankline-nvim
-            lazy-nvim
-            lazydev-nvim
-            LazyVim
-            lualine-nvim
-            luvit-meta
-            mini-ai
-            mini-icons
-            mini-pairs
-            neo-tree-nvim
-            noice-nvim
-            nui-nvim
-            nvim-cmp
-            nvim-lint
-            nvim-lspconfig
-            nvim-notify
-            nvim-snippets
-            nvim-treesitter-textobjects
-            nvim-ts-autotag
-            persistence-nvim
-            plenary-nvim
-            telescope-fzf-native-nvim
-            telescope-nvim
-            todo-comments-nvim
-            tokyonight-nvim
-            trouble-nvim
-            ts-comments-nvim
-            which-key-nvim
-            ;
-          nvim-treesitter = pkgs.vimPlugins.nvim-treesitter.withPlugins (
-            plugins:
-            builtins.attrValues {
-              inherit (plugins)
-                bash
-                c
-                diff
-                html
-                javascript
-                jsdoc
-                json
-                jsonc
-                lua
-                luadoc
-                luap
-                markdown
-                markdown_inline
-                printf
-                python
-                query
-                regex
-                toml
-                tsx
-                typescript
-                vim
-                vimdoc
-                xml
-                yaml
-                ;
-            }
-          );
-        }
-        ++ builtins.attrValues (
-          builtins.mapAttrs
-            (
-              input: pname:
-              pkgs.vimUtils.buildVimPlugin {
-                inherit pname;
-                version = "2024-08-09";
-                src = inputs.${input};
-              }
-            )
-            {
-            }
+      plugins = builtins.attrValues {
+        inherit (pkgs.vimPlugins)
+          bufferline-nvim
+          catppuccin-nvim
+          cmp-buffer
+          cmp-nvim-lsp
+          cmp-path
+          conform-nvim
+          dashboard-nvim
+          dressing-nvim
+          flash-nvim
+          friendly-snippets
+          gitsigns-nvim
+          grug-far-nvim
+          indent-blankline-nvim
+          lazy-nvim
+          lazydev-nvim
+          LazyVim
+          lualine-nvim
+          luvit-meta
+          mini-ai
+          mini-icons
+          mini-pairs
+          neo-tree-nvim
+          noice-nvim
+          nui-nvim
+          nvim-cmp
+          nvim-lint
+          nvim-lspconfig
+          nvim-notify
+          nvim-snippets
+          nvim-treesitter-textobjects
+          nvim-ts-autotag
+          persistence-nvim
+          plenary-nvim
+          telescope-fzf-native-nvim
+          telescope-nvim
+          todo-comments-nvim
+          tokyonight-nvim
+          trouble-nvim
+          ts-comments-nvim
+          which-key-nvim
+          ;
+        nvim-treesitter = pkgs.vimPlugins.nvim-treesitter.withPlugins (
+          plugins:
+          builtins.attrValues {
+            inherit (plugins)
+              bash
+              c
+              diff
+              html
+              javascript
+              jsdoc
+              json
+              jsonc
+              lua
+              luadoc
+              luap
+              markdown
+              markdown_inline
+              printf
+              python
+              query
+              regex
+              toml
+              tsx
+              typescript
+              vim
+              vimdoc
+              xml
+              yaml
+              ;
+          }
         );
+      };
     };
   };
 }

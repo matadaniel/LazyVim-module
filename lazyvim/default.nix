@@ -206,6 +206,7 @@ in
             todo-comments-nvim
             tokyonight-nvim
             trouble-nvim
+            ts-comments-nvim
             which-key-nvim
             ;
           nvim-treesitter = pkgs.vimPlugins.nvim-treesitter.withPlugins (
@@ -251,7 +252,6 @@ in
               }
             )
             {
-              ts-comments-nvim = "ts-comments.nvim";
             }
         );
     };

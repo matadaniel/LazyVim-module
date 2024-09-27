@@ -77,6 +77,7 @@ in
         	spec = {
         		-- add LazyVim and import its plugins
         		{ "LazyVim/LazyVim", import = "lazyvim.plugins" },
+        		{ "nvim-telescope/telescope-fzf-native.nvim", enabled = true },
         		{ "williamboman/mason-lspconfig.nvim", enabled = false },
         		{ "williamboman/mason.nvim", enabled = false },
             ${
@@ -202,6 +203,7 @@ in
             nvim-ts-autotag
             persistence-nvim
             plenary-nvim
+            telescope-fzf-native-nvim
             telescope-nvim
             todo-comments-nvim
             tokyonight-nvim

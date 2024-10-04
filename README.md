@@ -143,5 +143,5 @@ Enable optional programs
 
 ## 🤝 Contributing
 
-If there is an extra that you always use that is not currently supported,
+If there is an extra that you always use that is not currently [supported](lazyvim/extras),
 please open an issue if there is not one open already!

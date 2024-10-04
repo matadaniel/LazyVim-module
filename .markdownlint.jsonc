@@ -1,0 +1,4 @@
+{
+  "no-hard-tabs": { "code_blocks": false },
+  "line-length": { "code_blocks": false },
+}

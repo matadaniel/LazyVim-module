@@ -22,7 +22,7 @@ stdenv.mkDerivation (finalAttrs: {
       pname
       version
       src
-      pnpmWorkspace
+      pnpmWorkspaces
       prePnpmInstall
       ;
     hash = "sha256-uIb5yZEqf/vjxblOaFwUzLObW1np09abYx6BNQ5uIIk=";
@@ -35,7 +35,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   buildInputs = [ nodejs_22 ];
 
-  pnpmWorkspace = "typescript-svelte-plugin";
+  pnpmWorkspaces = [ "typescript-svelte-plugin" ];
   prePnpmInstall = ''
     pnpm config set dedupe-peer-dependents false
   '';

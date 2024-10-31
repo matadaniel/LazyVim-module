@@ -22,7 +22,7 @@ stdenv.mkDerivation (finalAttrs: {
       pname
       version
       src
-      pnpmWorkspace
+      pnpmWorkspaces
       prePnpmInstall
       ;
     hash = "sha256-BiTrG5sfQmRQEmvZng+OxyUnuLH+rVe827BnICU9FPE=";
@@ -35,7 +35,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   buildInputs = [ nodejs_22 ];
 
-  pnpmWorkspace = "@astrojs/ts-plugin";
+  pnpmWorkspaces = [ "@astrojs/ts-plugin" ];
   prePnpmInstall = ''
     pnpm config set dedupe-peer-dependents false
   '';

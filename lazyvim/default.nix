@@ -39,6 +39,8 @@ in
 
     ./extras/util/dot.nix
     ./extras/util/mini-hipatterns.nix
+
+    ./plugins
   ];
 
   options.programs.lazyvim = {

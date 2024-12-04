@@ -107,11 +107,10 @@ Bring your own plugins
 ```nix
 { pkgs, ... }:
 {
-  programs.neovim = {
+  programs.lazyvim = {
     plugins = [ pkgs.vimPlugins.undotree ];
+    pluginsFile."editor.lua".source = ./editor.lua;
   };
-
-  xdg.configFile."nvim/lua/plugins/editor.lua".source = ./editor.lua;
 }
 ```
 

@@ -56,7 +56,7 @@ in
 
     xdg.configFile =
       if (cfg.pluginsFile != null) then
-        mapAttrs' (name: file: nameValuePair "nvim/lua/plugins/" + name file) cfg.pluginsFile
+        mapAttrs' (name: file: nameValuePair ("nvim/lua/plugins/" + name) file) cfg.pluginsFile
       else
         {
           "nvim/lua/plugins/example.lua".source = pkgs.fetchurl {

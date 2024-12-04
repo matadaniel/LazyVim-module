@@ -32,6 +32,7 @@ in
     };
 
     pluginsFile = mkOption {
+      default = null;
       description = ''
         Attribute set of files to link into {file}`$XDG_CONFIG_HOME/nvim/lua/plugins/`.
 

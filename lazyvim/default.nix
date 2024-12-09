@@ -77,25 +77,30 @@ in
         ${
           let
             inherit (cfg.extras.lang) astro svelte;
+
+            selfPkgs = self.packages.${pkgs.stdenv.hostPlatform.system};
+
+            masonPackages = [
+              {
+                cond = astro.enable;
+                name = "packages/astro-language-server/node_modules/@astrojs/ts-plugin";
+                path = selfPkgs.astro-ts-plugin;
+              }
+              {
+                cond = svelte.enable;
+                name = "packages/svelte-language-server/node_modules/typescript-svelte-plugin";
+                path = selfPkgs.typescript-svelte-plugin;
+              }
+            ];
+
+            enabledMasonPackages = map (enabledMasonPackage: { inherit (enabledMasonPackage) name path; }) (
+              builtins.filter (masonPackage: masonPackage.cond) masonPackages
+            );
           in
-          lib.optionalString (astro.enable || svelte.enable)
-            "vim.env.MASON = \"${
-              pkgs.linkFarm "mason" (
-                let
-                  selfPkgs = self.packages.${pkgs.stdenv.hostPlatform.system};
-                in
-                lib.optional astro.enable {
-                  name = "packages/astro-language-server/node_modules/@astrojs/ts-plugin";
-                  path = selfPkgs.astro-ts-plugin;
-                }
-                ++ lib.optional svelte.enable {
-                  name = "packages/svelte-language-server/node_modules/typescript-svelte-plugin";
-                  path = selfPkgs.typescript-svelte-plugin;
-                }
-              )
-            }\"\n"
-        }
-        require("lazy").setup({
+          lib.optionalString (
+            enabledMasonPackages != [ ]
+          ) "vim.env.MASON = \"${pkgs.linkFarm "mason" enabledMasonPackages}\"\n\n"
+        }require("lazy").setup({
         	dev = { path = vim.api.nvim_list_runtime_paths()[1] .. "/pack/myNeovimPackages/start", patterns = { "." } },
         	spec = {
         		-- add LazyVim and import its plugins

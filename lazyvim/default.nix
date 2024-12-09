@@ -200,7 +200,6 @@ in
         removeAttrs {
           inherit (pkgs.vimPlugins)
             bufferline-nvim
-            catppuccin-nvim
             cmp-buffer
             cmp-nvim-lsp
             cmp-path
@@ -239,6 +238,19 @@ in
             ts-comments-nvim
             which-key-nvim
             ;
+          # HACK:
+          # LazyVim sets catppuccin/nvim's name to catppuccin.
+          # lazy.nvim expects the name to match the path.
+          # lib.getName is used to link each plugin into vim-pack-dir.
+          # lib.getName returns the pname attribute if
+          # the argument is not a string and the pname attribute is set.
+          #
+          # programs.neovim -> pkgs.wrapNeovimUnstable ->
+          # neovimUtils.packDir -> vimUtils.packDir -> vimFarm ->
+          # linkFarm name [ { name = "${prefix}/${lib.getName drv}"; path = drv; } ]
+          catppuccin-nvim = pkgs.vimPlugins.catppuccin-nvim.overrideAttrs (oldAttrs: {
+            pname = "catppuccin";
+          });
           nvim-treesitter = pkgs.vimPlugins.nvim-treesitter.withPlugins (
             plugins:
             builtins.attrValues {

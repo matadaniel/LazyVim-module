@@ -29,7 +29,7 @@ in
 
     xdg.configFile."nvim/lua/plugins/astro.lua".text =
       let
-        inherit (self.packages.${pkgs.stdenv.hostPlatform.system}) vtsls;
+        tsdk = "${pkgs.vtsls}/lib/vtsls-language-server/node_modules/typescript/lib";
       in
       # lua
       ''
@@ -58,7 +58,7 @@ in
         							end
         						end
 
-        						local tsdk = "${vtsls}/lib/node_modules/@vtsls/language-server/node_modules/typescript/lib"
+        						local tsdk = "${tsdk}"
         						for i = 1, #tsservers do
         							local serverPath = tsdk .. tsservers[i]
         							if vim.uv.fs_stat(serverPath) then
@@ -69,7 +69,7 @@ in
         						end
 
         						LazyVim.error(
-        							"Failed to find vendored Typescript module in ${vtsls}/lib/node_modules/@vtsls/language-server",
+        							"Failed to find vendored Typescript module in ${tsdk}",
         							{ title = "LazyVim-module" }
         						)
         						new_config.init_options.typescript.serverPath = nil

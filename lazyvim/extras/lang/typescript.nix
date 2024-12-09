@@ -29,7 +29,7 @@ in
           extraPackages = [
             # js-debug-adapter for nvim-dap
             # pkgs.vscode-js-debug
-            self.packages.${pkgs.stdenv.hostPlatform.system}.vtsls
+            pkgs.vtsls
           ];
         };
       };

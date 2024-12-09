@@ -103,32 +103,28 @@ in
         		{ "nvim-telescope/telescope-fzf-native.nvim", enabled = true },
         		{ "williamboman/mason-lspconfig.nvim", enabled = false },
         		{ "williamboman/mason.nvim", enabled = false },${
-            lib.optionalString (cfg.pluginsToDisable != [ ]) "\n\t\t"
+            let
+              enabledOptions =
+                path: options:
+                builtins.concatMap (
+                  name:
+                  let
+                    v = options.${name};
+                  in
+                  if builtins.isAttrs v then
+                    enabledOptions (path + "." + name) v
+                  else if name == "enable" && v then
+                    [ path ]
+                  else
+                    [ ]
+                ) (builtins.attrNames options);
+
+              enabledExtras = enabledOptions "extras" cfg.extras;
+            in
+            lib.optionalString (cfg.pluginsToDisable != [ ] || enabledExtras != [ ]) "\n\t\t"
             + builtins.concatStringsSep "\n\t\t" (
               map (plugin: "{ \"${plugin.lazyName}\", enabled = false },") cfg.pluginsToDisable
-            )
-          }
-        		${
-            builtins.concatStringsSep "\n\t\t" (
-              map (extra: "{ import = \"lazyvim.plugins.${extra}\" },") (
-                let
-                  enabledOptions =
-                    path: options:
-                    builtins.concatMap (
-                      name:
-                      let
-                        v = options.${name};
-                      in
-                      if builtins.isAttrs v then
-                        enabledOptions (path + "." + name) v
-                      else if name == "enable" && v then
-                        [ path ]
-                      else
-                        [ ]
-                    ) (builtins.attrNames options);
-                in
-                enabledOptions "extras" cfg.extras
-              )
+              ++ map (extra: "{ import = \"lazyvim.plugins.${extra}\" },") enabledExtras
             )
           }
         		-- import/override with your plugins

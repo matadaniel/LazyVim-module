@@ -78,7 +78,7 @@ in
       extraLuaConfig = ''
         ${
           let
-            inherit (cfg.extras.lang) astro svelte;
+            inherit (cfg.extras.lang) astro svelte typescript;
 
             selfPkgs = self.packages.${pkgs.stdenv.hostPlatform.system};
 
@@ -92,6 +92,11 @@ in
                 cond = svelte.enable;
                 name = "packages/svelte-language-server/node_modules/typescript-svelte-plugin";
                 path = selfPkgs.typescript-svelte-plugin;
+              }
+              {
+                cond = (astro.enable || svelte.enable || typescript.enable) && cfg.extras.dap.core.enable;
+                name = "packages/js-debug-adapter/js-debug/src/dapDebugServer.js";
+                path = "${pkgs.vscode-js-debug}/lib/node_modules/js-debug/dist/src/dapDebugServer.js";
               }
             ];
 

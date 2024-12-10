@@ -26,11 +26,7 @@ in
       )
       {
         programs.neovim = {
-          extraPackages = [
-            # js-debug-adapter for nvim-dap
-            # pkgs.vscode-js-debug
-            pkgs.vtsls
-          ];
+          extraPackages = [ pkgs.vtsls ] ++ lib.optional cfg.extras.dap.core.enable pkgs.nodejs-slim;
         };
       };
 }

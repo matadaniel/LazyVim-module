@@ -113,6 +113,7 @@ in
         		-- add LazyVim and import its plugins
         		{ "LazyVim/LazyVim", import = "lazyvim.plugins" },
         		{ "nvim-telescope/telescope-fzf-native.nvim", enabled = true },
+        		{ "jay-babu/mason-nvim-dap.nvim", enabled = false },
         		{ "williamboman/mason-lspconfig.nvim", enabled = false },
         		{ "williamboman/mason.nvim", enabled = false },${
             let

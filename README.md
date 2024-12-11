@@ -64,6 +64,12 @@ Example `home-manager/home.nix`:
 }
 ```
 
+Run LazyVim with some default config for testing:
+
+```sh
+nix run --extra-experimental-features "nix-command flakes" github:matadaniel/LazyVim-module
+```
+
 ## 📖 Usage
 
 Enable extras

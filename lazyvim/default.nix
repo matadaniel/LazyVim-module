@@ -173,6 +173,30 @@ in
         				"tutor",
         				"zipPlugin",
         			},
+        			paths = {
+        				${
+              let
+                wrapPlugins =
+                  plugins:
+                  map (plugin: {
+                    key = plugin.outPath;
+                    deps = plugin.dependencies or [ ];
+                  }) plugins;
+              in
+              builtins.concatStringsSep "\n\t\t\t\t" (
+                map ({ key, deps }: "\"${key}\",") (
+                  builtins.genericClosure {
+                    startSet = wrapPlugins (
+                      builtins.concatMap (
+                        plugin: plugin.dependencies or [ ]
+                      ) config.programs.neovim.finalPackage.passthru.packpathDirs.myNeovimPackages.start
+                    );
+                    operator = { key, deps }: wrapPlugins deps;
+                  }
+                )
+              )
+            }
+        			},
         		},
         	},
         })

@@ -4,6 +4,7 @@
     fish.enable = true;
     wofi.enable = true;
     rofi.enable = true;
+    neovim.finalPackage.passthru.packpathDirs.myNeovimPackages.start = [ ];
     lazyvim = {
       enable = true;
       extras = {
@@ -57,12 +58,7 @@
         };
       };
       plugins = [ ];
-      pluginsToDisable = [
-        {
-          lazyName = "plugins";
-          nixName = "plugins";
-        }
-      ];
+      pluginsToDisable = [ ];
       pluginsFile = null;
     };
   };

@@ -10,7 +10,7 @@ let
   inherit (lib.options) mkEnableOption mkOption;
 in
 {
-  # Mimic configuration of Home Manager modules used by LazyVim-module.
+  # Mimic configuration options of NixOs and Home Manager modules used by LazyVim-module.
   options = {
     xdg = {
       configFile = lib.mkOption {

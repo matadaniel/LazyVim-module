@@ -9,7 +9,7 @@ let
     config:
     lib.evalModules {
       modules = [
-        (self.nixosModules.lazyvim)
+        (import ./module.nix self)
         (self.homeManagerModules.lazyvim)
       ];
       specialArgs = {
@@ -23,9 +23,9 @@ let
     };
 
   defaultConfig = import ./config.nix;
-  lazyvim-config = (evalLazyVimModule defaultConfig).config;
+  lazyvimConfig = (evalLazyVimModule defaultConfig).config;
 
-  xdgConfigFile = lazyvim-config.xdg.configFile;
+  xdgConfigFile = lazyvimConfig.xdg.configFile;
   filteredConfigFiles = pkgs.lib.filterAttrs (
     name: value: pkgs.lib.hasPrefix "nvim/lua/plugins" name
   ) xdgConfigFile;
@@ -48,7 +48,7 @@ let
     '';
   };
 
-  neovimConfig = lazyvim-config.programs.neovim;
+  neovimConfig = lazyvimConfig.programs.neovim;
   lazyvim = pkgs.wrapNeovim pkgs.neovim-unwrapped {
     configure = {
       customRC = # vim

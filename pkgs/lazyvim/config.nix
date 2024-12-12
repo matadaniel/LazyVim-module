@@ -1,3 +1,4 @@
+# Set some default configuration for Home Manager- and LazyVim-modules
 {
   wayland.windowManager.hyprland.enable = true;
   programs = {

@@ -5,39 +5,70 @@
   self,
 }:
 let
-  lazyvim-module-evaluation = lib.evalModules {
-    modules = [
-      (self.nixosModules.lazyvim)
-      (self.homeManagerModules.lazyvim)
-    ];
-    specialArgs = {
-      inherit
-        inputs
-        lib
-        pkgs
-        ;
-      config = import ./config.nix;
+  evalLazyVimModule =
+    config:
+    lib.evalModules {
+      modules = [
+        (self.nixosModules.lazyvim)
+        (self.homeManagerModules.lazyvim)
+      ];
+      specialArgs = {
+        inherit
+          inputs
+          lib
+          pkgs
+          config
+          ;
+      };
     };
+
+  defaultConfig = import ./config.nix;
+  lazyvim-config = (evalLazyVimModule defaultConfig).config;
+
+  xdgConfigFile = lazyvim-config.xdg.configFile;
+  filteredConfigFiles = pkgs.lib.filterAttrs (
+    name: value: pkgs.lib.hasPrefix "nvim/lua/plugins" name
+  ) xdgConfigFile;
+  writtenConfigFiles = pkgs.lib.mapAttrsToList (
+    name: value:
+    if pkgs.lib.hasAttr "text" value && value.text != null then
+      pkgs.writeText name value.text
+    else if pkgs.lib.hasAttr "source" value && value.source != null then
+      pkgs.runCommandNoCC name { } "cp ${value.source} $out"
+    else
+      throw "Invalid configFile: ${name}"
+  ) filteredConfigFiles;
+  xdgConfigDerivation = pkgs.stdenv.mkDerivation {
+    name = "xdg-nvim-config-files";
+    buildCommand = ''
+      mkdir $out
+      for file in ${pkgs.lib.concatStringsSep " " writtenConfigFiles}; do
+        cp $file $out
+      done
+    '';
   };
 
-  programs = lazyvim-module-evaluation.config.programs;
-  neovim-config = programs.neovim;
+  neovimConfig = lazyvim-config.programs.neovim;
   lazyvim = pkgs.wrapNeovim pkgs.neovim-unwrapped {
     configure = {
       customRC = # vim
         ''
           lua << EOF
-            ${neovim-config.extraLuaConfig}
+            ${neovimConfig.extraLuaConfig}
           EOF
         '';
       packages.myNeovimPackages = {
-        start = neovim-config.plugins;
+        start = neovimConfig.plugins;
       };
     };
   };
 in
 pkgs.writeShellScriptBin "neovim" ''
-  export PATH="$PATH:${pkgs.lib.makeBinPath neovim-config.extraPackages}"
-  export NVIM_APPNAME="LazyVim-module-app"
+  export XDG_CONFIG_HOME=$(mktemp -d)
+  pluginsDir=$XDG_CONFIG_HOME/nvim/lua/plugins
+  mkdir -p $pluginsDir
+  ln -sf ${xdgConfigDerivation}/* $pluginsDir
+
+  export PATH="$PATH:${pkgs.lib.makeBinPath neovimConfig.extraPackages}"
   exec ${lazyvim}/bin/nvim "$@"
 ''

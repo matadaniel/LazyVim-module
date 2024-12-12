@@ -30,13 +30,13 @@
 
         lang = {
           nix.enable = true;
-          astro.enable = false;
+          astro.enable = true;
           svelte.enable = false;
           tailwind.enable = false;
           prisma.enable = false;
-          markdown.enable = false;
-          json.enable = false;
-          typescript.enable = false;
+          markdown.enable = true;
+          json.enable = true;
+          typescript.enable = true;
         };
 
         linting = {

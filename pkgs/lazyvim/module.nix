@@ -13,8 +13,26 @@ in
   # Mimic configuration of Home Manager modules used by LazyVim-module.
   options = {
     xdg = {
-      configFile = mkOption {
-        type = lib.types.str;
+      configFile = lib.mkOption {
+        type = lib.types.attrsOf (
+          lib.types.submodule {
+            options = {
+              enable = mkEnableOption "Whether this file should be generated.";
+              source = mkOption {
+                type = lib.types.path;
+                default = null;
+                description = "Path of the source file or directory.";
+              };
+              text = mkOption {
+                type = lib.types.nullOr lib.types.str;
+                default = null;
+                description = "Text content of the file.";
+              };
+            };
+          }
+        );
+        default = { };
+        description = "Configuration files managed by xdg.";
       };
     };
     programs = {

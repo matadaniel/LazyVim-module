@@ -4,6 +4,8 @@
     fish.enable = true;
     wofi.enable = true;
     rofi.enable = true;
+    lazygit.enable = true;
+    ripgrep.enable = true;
     neovim.finalPackage.passthru.packpathDirs.myNeovimPackages.start = [ ];
     lazyvim = {
       enable = true;

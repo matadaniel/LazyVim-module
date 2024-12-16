@@ -52,6 +52,11 @@ let
   };
 
   neovimConfig = lazyvimConfig.programs.neovim;
+  extraPackages =
+    neovimConfig.extraPackages
+    ++ (lib.optional defaultConfig.programs.lazygit.enable pkgs.lazygit)
+    ++ (lib.optional defaultConfig.programs.ripgrep.enable pkgs.ripgrep);
+
   lazyvim = pkgs.wrapNeovim pkgs.neovim-unwrapped {
     configure = {
       customRC = # vim
@@ -68,10 +73,12 @@ let
 in
 pkgs.writeShellScriptBin "neovim" ''
   export XDG_CONFIG_HOME=$(mktemp -d)
+  mkdir $XDG_CONFIG_HOME/lazygit
+  touch $XDG_CONFIG_HOME/lazygit/config.yml
   pluginsDir=$XDG_CONFIG_HOME/nvim/lua/plugins
   mkdir -p $pluginsDir
   ln -sf ${xdgConfigDerivation}/* $pluginsDir
 
-  export PATH="$PATH:${lib.makeBinPath neovimConfig.extraPackages}"
+  export PATH="$PATH:${lib.makeBinPath extraPackages}"
   exec ${lazyvim}/bin/nvim "$@"
 ''

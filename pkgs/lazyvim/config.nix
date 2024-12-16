@@ -1,4 +1,3 @@
-# Set some default configuration for Home Manager- and LazyVim-modules
 {
   wayland.windowManager.hyprland.enable = true;
   programs = {
@@ -11,7 +10,6 @@
       extras = {
         coding = {
           mini-surround.enable = true;
-
           yanky.enable = true;
         };
 
@@ -21,7 +19,6 @@
 
         editor = {
           dial.enable = true;
-
           inc-rename.enable = true;
         };
 
@@ -30,13 +27,13 @@
         };
 
         lang = {
-          nix.enable = true;
           astro.enable = true;
-          svelte.enable = false;
-          tailwind.enable = false;
-          prisma.enable = false;
-          markdown.enable = true;
           json.enable = true;
+          markdown.enable = true;
+          nix.enable = true;
+          prisma.enable = true;
+          svelte.enable = true;
+          tailwind.enable = true;
           typescript.enable = true;
         };
 
@@ -48,14 +45,14 @@
           core.enable = true;
         };
 
+        ui = {
+          mini-animate.enable = true;
+        };
+
         util = {
           dot.enable = true;
 
           mini-hipatterns.enable = true;
-        };
-
-        ui = {
-          mini-animate.enable = false;
         };
       };
       plugins = [ ];

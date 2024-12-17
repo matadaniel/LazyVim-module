@@ -16,7 +16,7 @@
       self,
       systems,
       ...
-    }:
+    }@inputs:
     {
       homeManagerModules = {
         default = self.homeManagerModules.lazyvim;
@@ -32,6 +32,9 @@
           astro-ts-plugin = callPackage ./pkgs/astro-ts-plugin { };
           markdown-toc = callPackage ./pkgs/markdown-toc { };
           typescript-svelte-plugin = callPackage ./pkgs/typescript-svelte-plugin { };
+          default = callPackage ./pkgs/lazyvim {
+            inherit self inputs;
+          };
         }
       );
     };

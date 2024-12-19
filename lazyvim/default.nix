@@ -222,7 +222,6 @@ in
             lazydev-nvim
             LazyVim
             lualine-nvim
-            luvit-meta
             mini-ai
             mini-icons
             mini-pairs

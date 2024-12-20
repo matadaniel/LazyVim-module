@@ -21,6 +21,7 @@ in
     ./extras/dap/core.nix
 
     ./extras/editor/dial.nix
+    ./extras/editor/fzf.nix
     ./extras/editor/inc-rename.nix
 
     ./extras/formatting/prettier.nix

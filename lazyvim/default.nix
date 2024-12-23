@@ -113,7 +113,6 @@ in
         	spec = {
         		-- add LazyVim and import its plugins
         		{ "LazyVim/LazyVim", import = "lazyvim.plugins" },
-        		{ "nvim-telescope/telescope-fzf-native.nvim", enabled = true },
         		{ "jay-babu/mason-nvim-dap.nvim", enabled = false },
         		{ "williamboman/mason-lspconfig.nvim", enabled = false },
         		{ "williamboman/mason.nvim", enabled = false },${
@@ -213,7 +212,6 @@ in
             cmp-nvim-lsp
             cmp-path
             conform-nvim
-            dressing-nvim
             flash-nvim
             friendly-snippets
             gitsigns-nvim
@@ -238,8 +236,6 @@ in
             persistence-nvim
             plenary-nvim
             snacks-nvim
-            telescope-fzf-native-nvim
-            telescope-nvim
             todo-comments-nvim
             tokyonight-nvim
             trouble-nvim

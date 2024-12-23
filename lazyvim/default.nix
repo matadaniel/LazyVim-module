@@ -216,7 +216,6 @@ in
             friendly-snippets
             gitsigns-nvim
             grug-far-nvim
-            indent-blankline-nvim
             lazy-nvim
             lazydev-nvim
             LazyVim

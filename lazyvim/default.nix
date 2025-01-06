@@ -209,9 +209,6 @@ in
         removeAttrs {
           inherit (pkgs.vimPlugins)
             bufferline-nvim
-            cmp-buffer
-            cmp-nvim-lsp
-            cmp-path
             conform-nvim
             flash-nvim
             friendly-snippets
@@ -227,10 +224,8 @@ in
             neo-tree-nvim
             noice-nvim
             nui-nvim
-            nvim-cmp
             nvim-lint
             nvim-lspconfig
-            nvim-snippets
             nvim-treesitter-textobjects
             nvim-ts-autotag
             persistence-nvim

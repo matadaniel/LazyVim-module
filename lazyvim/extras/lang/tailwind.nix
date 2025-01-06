@@ -20,13 +20,14 @@ in
     programs.neovim = {
       extraPackages = [ pkgs.tailwindcss-language-server ];
 
-      plugins = [
-        (pkgs.vimUtils.buildVimPlugin {
-          pname = "tailwindcss-colorizer-cmp.nvim";
-          version = "2024-09-27";
-          src = self.inputs.tailwindcss-colorizer-cmp-nvim;
-        })
-      ];
+      # TODO: lib.optional cfg.extras.coding.nvim-cmp.enable
+      # plugins = [
+      #   (pkgs.vimUtils.buildVimPlugin {
+      #     pname = "tailwindcss-colorizer-cmp.nvim";
+      #     version = "2024-09-27";
+      #     src = self.inputs.tailwindcss-colorizer-cmp-nvim;
+      #   })
+      # ];
     };
   };
 }

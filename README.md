@@ -64,6 +64,15 @@ Example `home-manager/home.nix`:
 }
 ```
 
+### Requirements
+
+- terminal emulator that supports true color and undercurl
+
+#### Optional
+
+- [lazygit](https://github.com/jesseduffield/lazygit)
+- [Nerd Font](https://nerdfonts.com/) (required to display some icons)
+
 ## 📖 Usage
 
 Enable extras
@@ -125,18 +134,6 @@ return {
 			vim.g.undotree_WindowLayout = 4
 		end,
 	},
-}
-```
-
-Enable optional programs
-
-```nix
-{
-  programs = {
-    lazygit.enable = true;
-
-    ripgrep.enable = true;
-  };
 }
 ```
 

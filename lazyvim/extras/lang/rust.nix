@@ -1,9 +1,9 @@
 self:
 {
-	config,
-	lib,
-	pkgs,
-	...
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 let
   inherit (lib.modules) mkIf;
@@ -20,12 +20,17 @@ in
     programs.neovim = {
       extraPackages = [ pkgs.rust-analyzer ];
 
-      plugins = [
-        (pkgs.vimPlugins.nvim-treesitter.withPlugins (
-          plugins: builtins.attrValues { inherit (plugins) rust; }
-        ))
-      ] ++ (with pkgs.vimPlugins; [ crates-nvim rustaceanvim ]);
+      plugins =
+        [
+          (pkgs.vimPlugins.nvim-treesitter.withPlugins (
+            plugins: builtins.attrValues { inherit (plugins) rust; }
+          ))
+        ]
+        ++ (with pkgs.vimPlugins; [
+          crates-nvim
+          rustaceanvim
+          clangd_extensions-nvim
+        ]);
     };
   };
 }
-

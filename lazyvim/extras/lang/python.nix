@@ -26,8 +26,8 @@ in
         python312Packages.debugpy
       ];
 
-      plugins = [
-        (pkgs.vimPlugins.nvim-treesitter.withPlugins (
+      plugins = with pkgs.vimPlugins; [
+        (nvim-treesitter.withPlugins (
           plugins: builtins.attrValues {
             inherit (plugins)
               python
@@ -35,6 +35,19 @@ in
               rst;
           }
         ))
+        (pkgs.vimUtils.buildVimPlugin {
+          pname = "venv-selector.nvim";
+          version = "2024-11-23";
+          src = pkgs.fetchFromGitHub {
+            owner = "linux-cultist";
+            repo = "venv-selector.nvim";
+            rev = "f212a424fb29949cb5e683928bdd4038bbe0062d";
+            sha256 = "1m3nlxi7aghm8bnbh7vh3h47yz21lj4higywwvq1s8xr5bizb0ig";
+          };
+          meta.homepage = "https://github.com/linux-cultist/venv-selector.nvim/";
+        })
+        neotest-python
+        nvim-dap-python
       ];
     };
   };

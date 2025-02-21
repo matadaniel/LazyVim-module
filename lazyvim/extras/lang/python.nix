@@ -22,7 +22,7 @@ in
 
       extraPackages = with pkgs; [
         pyright
-        ruff-lsp
+        ruff
         python312Packages.debugpy
       ];
 

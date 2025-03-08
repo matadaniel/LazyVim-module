@@ -23,6 +23,8 @@
         lazyvim = import ./lazyvim self;
       };
 
+      lib = import ./lib;
+
       packages = nixpkgs.lib.genAttrs (import systems) (
         system:
         let

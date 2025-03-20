@@ -14,10 +14,7 @@ let
 in
 {
   options.programs.lazyvim.extras.editor.fzf = {
-    enable = mkEnableOption "the editor.fzf extra" // {
-      default = cfg.enable # TODO: && !cfg.extras.editor.telescope.enable
-      ;
-    };
+    enable = mkEnableOption "the editor.fzf extra";
 
     dependencies = mkOption {
       default = builtins.attrValues { inherit (pkgs) fd fzf ripgrep; };

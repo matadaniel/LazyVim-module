@@ -15,6 +15,8 @@ let
 in
 {
   imports = map (module: import module self) [
+    ./config
+
     ./extras/coding/blink.nix
     ./extras/coding/mini-surround.nix
     ./extras/coding/yanky.nix

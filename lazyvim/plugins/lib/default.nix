@@ -1,5 +1,5 @@
 let
-  lib = {
+  set = {
     pluginAttrs =
       inputs:
       {
@@ -19,7 +19,7 @@ let
     buildVimPlugin =
       inputs: pkgs: attrsOrPname:
       pkgs.vimUtils.buildVimPlugin (
-        lib.pluginAttrs inputs (
+        set.pluginAttrs inputs (
           if builtins.isString attrsOrPname then { pname = attrsOrPname; } else attrsOrPname
         )
       );
@@ -29,7 +29,7 @@ let
       let
         inherit (pkgs.vimUtils) buildVimPlugin;
 
-        pluginAttrs = lib.pluginAttrs inputs;
+        pluginAttrs = set.pluginAttrs inputs;
       in
       map (
         attrsOrPname:
@@ -39,4 +39,4 @@ let
       ) list;
   };
 in
-lib
+set

@@ -8,11 +8,11 @@ self:
 let
   inherit (lib.attrsets) mapAttrs' nameValuePair;
   inherit (lib.modules) mkIf;
-  inherit (lib.options) mkOption;
+  inherit (lib.options) literalExpression mkOption;
   inherit (lib.types)
-    attrs
+    anything
+    attrsOf
     listOf
-    nullOr
     package
     ;
 
@@ -32,7 +32,20 @@ in
     };
 
     pluginsFile = mkOption {
-      default = null;
+      default = {
+        "nvim/lua/plugins/example.lua".source = pkgs.fetchurl {
+          url = "https://raw.githubusercontent.com/LazyVim/starter/refs/heads/main/lua/plugins/example.lua";
+          hash = "sha256-Y8q4s3oxnaZAsHO21lSxGVJ3bqyMtV2KasAOXxcTZro=";
+        };
+      };
+      defaultText = literalExpression ''
+        {
+          "nvim/lua/plugins/example.lua".source = pkgs.fetchurl {
+            url = "https://raw.githubusercontent.com/LazyVim/starter/refs/heads/main/lua/plugins/example.lua";
+            hash = "sha256-Y8q4s3oxnaZAsHO21lSxGVJ3bqyMtV2KasAOXxcTZro=";
+          };
+        }
+      '';
       description = ''
         Attribute set of files to link into {file}`$XDG_CONFIG_HOME/nvim/lua/plugins/`.
 
@@ -45,7 +58,7 @@ in
       '';
       # HM does not seem to export the `fileType` type.
       # xdg.configFile should throw an error if the attribute set is invalid.
-      type = nullOr attrs;
+      type = attrsOf anything;
     };
   };
 
@@ -54,15 +67,8 @@ in
       plugins = cfg.plugins;
     };
 
-    xdg.configFile =
-      if (cfg.pluginsFile != null) then
-        mapAttrs' (name: file: nameValuePair ("nvim/lua/plugins/" + name) file) cfg.pluginsFile
-      else
-        {
-          "nvim/lua/plugins/example.lua".source = pkgs.fetchurl {
-            url = "https://raw.githubusercontent.com/LazyVim/starter/refs/heads/main/lua/plugins/example.lua";
-            hash = "sha256-Y8q4s3oxnaZAsHO21lSxGVJ3bqyMtV2KasAOXxcTZro=";
-          };
-        };
+    xdg.configFile = mapAttrs' (
+      name: file: nameValuePair ("nvim/lua/plugins/" + name) file
+    ) cfg.pluginsFile;
   };
 }

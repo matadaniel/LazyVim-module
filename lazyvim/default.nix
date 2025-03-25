@@ -9,9 +9,28 @@ self:
 let
   inherit (lib.modules) mkIf;
   inherit (lib.options) mkEnableOption mkOption;
-  inherit (lib.types) listOf str submodule;
+  inherit (lib.types)
+    anything
+    attrsOf
+    listOf
+    str
+    submodule
+    ;
+  inherit (self.lib.generators) toLazySpecs;
+  inherit (self.lib.types) nested;
 
   cfg = config.programs.lazyvim;
+
+  pathsAndSpecs =
+    path: specs:
+    if builtins.isAttrs specs then
+      builtins.concatMap (name: pathsAndSpecs (path ++ [ name ]) specs.${name}) (builtins.attrNames specs)
+    else
+      [ { inherit path specs; } ];
+
+  pathsWithSpecs = pathsAndSpecs [ ] cfg.lazySpecs;
+
+  specsPluginName = "LazyVim-module-specs";
 in
 {
   imports = map (module: import module self) [
@@ -74,6 +93,12 @@ in
         };
       });
     };
+
+    lazySpecs = mkOption {
+      default = { };
+      internal = true;
+      type = nested attrsOf (listOf (attrsOf anything));
+    };
   };
 
   config = mkIf cfg.enable {
@@ -116,7 +141,23 @@ in
         	dev = { path = vim.api.nvim_list_runtime_paths()[1] .. "/pack/myNeovimPackages/start", patterns = { "" } },
         	spec = {
         		-- add LazyVim and import its plugins
-        		{ "LazyVim/LazyVim", import = "lazyvim.plugins" },
+        		{ "LazyVim/LazyVim", import = "lazyvim.plugins" },${
+            lib.optionalString (cfg.lazySpecs != { }) ''
+
+              		{ dir = "${
+                  pkgs.vimUtils.buildVimPlugin {
+                    name = specsPluginName;
+                    src = pkgs.buildEnv {
+                      name = specsPluginName;
+                      paths = map (
+                        { path, specs }:
+                        pkgs.writeTextDir "${builtins.concatStringsSep "/" path}.lua" (toLazySpecs { } specs)
+                      ) pathsWithSpecs;
+                      extraPrefix = "/lua/${specsPluginName}/plugins";
+                    };
+                  }
+                }" },''
+          }
         		{ "jay-babu/mason-nvim-dap.nvim", enabled = false },
         		{ "williamboman/mason-lspconfig.nvim", enabled = false },
         		{ "williamboman/mason.nvim", enabled = false },${
@@ -142,6 +183,9 @@ in
             + builtins.concatStringsSep "\n\t\t" (
               map (plugin: "{ \"${plugin.lazyName}\", enabled = false },") cfg.pluginsToDisable
               ++ map (extra: "{ import = \"lazyvim.plugins.${extra}\" },") enabledExtras
+              ++ map (
+                { path, ... }: "{ import = \"${specsPluginName}.plugins.${builtins.concatStringsSep "." path}\" },"
+              ) pathsWithSpecs
             )
           }
         		-- import/override with your plugins

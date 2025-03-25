@@ -15,6 +15,7 @@ let
     listOf
     package
     ;
+  inherit (self.lib.generators) toLazySpecs;
 
   cfg = config.programs.lazyvim;
 in
@@ -60,6 +61,28 @@ in
       # xdg.configFile should throw an error if the attribute set is invalid.
       type = attrsOf anything;
     };
+
+    pluginsSpecs = mkOption {
+      default = { };
+      description = "Attribute set of specs to link into {file}`$XDG_CONFIG_HOME/nvim/lua/plugins/`.";
+      # TODO: port rest of editor.lua from README
+      example = ''
+        {
+          "editor.lua" = [
+            {
+              ref = "mbbill/undotree";
+              keys = [
+                [
+                  "<leader>uu"
+                  "<cmd>UndotreeToggle<cr>"
+                ]
+              ];
+            }
+          ];
+        }
+      '';
+      type = attrsOf (listOf (attrsOf anything));
+    };
   };
 
   config = mkIf cfg.enable {
@@ -67,8 +90,10 @@ in
       plugins = cfg.plugins;
     };
 
-    xdg.configFile = mapAttrs' (
-      name: file: nameValuePair ("nvim/lua/plugins/" + name) file
-    ) cfg.pluginsFile;
+    xdg.configFile =
+      mapAttrs' (
+        name: specs: nameValuePair ("nvim/lua/plugins/" + name) { text = toLazySpecs { } specs; }
+      ) cfg.pluginsSpecs
+      // mapAttrs' (name: file: nameValuePair ("nvim/lua/plugins/" + name) file) cfg.pluginsFile;
   };
 }

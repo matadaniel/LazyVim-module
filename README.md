@@ -82,8 +82,6 @@ Enable extras
   programs.lazyvim = {
     extras = {
       coding = {
-        mini-surround.enable = true;
-
         yanky.enable = true;
       };
 

@@ -37,6 +37,7 @@ in
     ./config
 
     ./extras/coding/blink.nix
+    ./extras/coding/mini-snippets.nix
     ./extras/coding/mini-surround.nix
     ./extras/coding/yanky.nix
 

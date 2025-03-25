@@ -171,7 +171,7 @@ in
                   in
                   if builtins.isAttrs v then
                     enabledOptions (path + "." + name) v
-                  else if name == "enable" && v then
+                  else if name == "enable" && v && options.extra or true then
                     [ path ]
                   else
                     [ ]

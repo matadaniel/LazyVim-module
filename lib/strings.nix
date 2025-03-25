@@ -1,13 +1,15 @@
+{ lib }:
 let
+  inherit (lib.lists) init last;
+  inherit (lib.strings) getVersion optionalString versionAtLeast;
+
   set = {
     formatList =
-      lib: coordinator: list:
+      coordinator: list:
       let
-        inherit (lib.lists) init last;
-
         len = builtins.length list;
       in
-      lib.optionalString (len > 0) (
+      optionalString (len > 0) (
         let
           first = builtins.head list;
         in
@@ -20,10 +22,8 @@ let
       );
 
     hasNvimVersion =
-      config: lib: nvimVersion:
+      config: nvimVersion:
       let
-        inherit (lib.strings) getVersion versionAtLeast;
-
         neovimPkgVersion = getVersion config.programs.neovim.package;
         v1 = if neovimPkgVersion == "nightly" then getVersion "nvim-0.11" else neovimPkgVersion;
         v2 = getVersion nvimVersion;

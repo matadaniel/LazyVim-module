@@ -64,7 +64,7 @@ mkIf cfg.enable (
             message = "${
               if enabledCount > 1 then "More than one" else "No"
             } \"${name}\" extra enabled. LazyVim uses ${default.name} by default. Enable ${
-              self.lib.formatList lib "or" (
+              self.lib.formatList "or" (
                 lib.optional default.valid "`${default.extra}` (default)"
                 ++ map (alternative: "`${alternative.extra}`") alternatives
               )
@@ -109,7 +109,7 @@ mkIf cfg.enable (
         {
           name = "blink.cmp";
           extra = "coding.blink";
-          enabled = self.lib.hasNvimVersion config lib "nvim-0.10";
+          enabled = self.lib.hasNvimVersion config "nvim-0.10";
         }
         {
           name = "nvim-cmp";

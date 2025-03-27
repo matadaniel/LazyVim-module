@@ -59,6 +59,7 @@ in
     ./extras/lang/svelte.nix
     ./extras/lang/tailwind.nix
     ./extras/lang/typescript.nix
+    ./extras/lang/zig.nix
 
     ./extras/linting/eslint.nix
 

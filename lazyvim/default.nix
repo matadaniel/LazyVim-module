@@ -52,6 +52,7 @@ in
     ./extras/formatting/prettier.nix
 
     ./extras/lang/astro.nix
+    ./extras/lang/go.nix
     ./extras/lang/json.nix
     ./extras/lang/markdown.nix
     ./extras/lang/nix.nix

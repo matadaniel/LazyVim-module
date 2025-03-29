@@ -1,7 +1,10 @@
-self:
-{ config, lib, ... }:
-let
-  inherit (lib.attrsets)
+self: {
+  config,
+  lib,
+  ...
+}: let
+  inherit
+    (lib.attrsets)
     attrByPath
     foldlAttrs
     recursiveUpdate
@@ -12,43 +15,46 @@ let
 
   cfg = config.programs.lazyvim;
 in
-mkIf cfg.enable (
-  foldlAttrs
+  mkIf cfg.enable (
+    foldlAttrs
     (
-      acc: name: check:
-      let
+      acc: name: check: let
         inherit
-          (builtins.foldl'
+          (
+            builtins.foldl'
             (
-              acc': elem:
-              let
-                extra = elem // {
-                  valid = elem.enabled or true;
-                  optionPath = splitString "." elem.extra ++ [ "enable" ];
-                };
+              acc': elem: let
+                extra =
+                  elem
+                  // {
+                    valid = elem.enabled or true;
+                    optionPath = splitString "." elem.extra ++ ["enable"];
+                  };
               in
-              acc'
-              // (
-                if !acc'.default.valid && extra.valid then
-                  { default = extra; }
-                else
-                  { alternatives = acc'.alternatives ++ [ extra ]; }
-              )
-              // {
-                enabledCount =
-                  acc'.enabledCount + (if extra.valid && attrByPath extra.optionPath false cfg.extras then 1 else 0);
-              }
+                acc'
+                // (
+                  if !acc'.default.valid && extra.valid
+                  then {default = extra;}
+                  else {alternatives = acc'.alternatives ++ [extra];}
+                )
+                // {
+                  enabledCount =
+                    acc'.enabledCount
+                    + (
+                      if extra.valid && attrByPath extra.optionPath false cfg.extras
+                      then 1
+                      else 0
+                    );
+                }
             )
-
             {
-              alternatives = [ ];
+              alternatives = [];
               default = {
                 name = "no \"${name}\" extra";
                 valid = false;
               };
               enabledCount = 0;
             }
-
             check
           )
           alternatives
@@ -56,38 +62,41 @@ mkIf cfg.enable (
           enabledCount
           ;
       in
-      acc
-      // {
-        assertions = acc.assertions ++ [
-          {
-            assertion = enabledCount == 1;
-            message = "${
-              if enabledCount > 1 then "More than one" else "No"
-            } \"${name}\" extra enabled. LazyVim uses ${default.name} by default. Enable ${
-              self.lib.formatList "or" (
-                lib.optional default.valid "`${default.extra}` (default)"
-                ++ map (alternative: "`${alternative.extra}`") alternatives
-              )
-            }.";
-          }
-        ];
+        acc
+        // {
+          assertions =
+            acc.assertions
+            ++ [
+              {
+                assertion = enabledCount == 1;
+                message = "${
+                  if enabledCount > 1
+                  then "More than one"
+                  else "No"
+                } \"${name}\" extra enabled. LazyVim uses ${default.name} by default. Enable ${
+                  self.lib.formatList "or" (
+                    lib.optional default.valid "`${default.extra}` (default)"
+                    ++ map (alternative: "`${alternative.extra}`") alternatives
+                  )
+                }.";
+              }
+            ];
 
-        programs.lazyvim.extras = recursiveUpdate acc.programs.lazyvim.extras (
-          setAttrByPath default.optionPath (
-            mkIf (builtins.all (
-              alternative: !(alternative.valid && attrByPath alternative.optionPath false cfg.extras)
-            ) alternatives) (mkDefault true)
-          )
-        );
-      }
+          programs.lazyvim.extras = recursiveUpdate acc.programs.lazyvim.extras (
+            setAttrByPath default.optionPath (
+              mkIf (builtins.all (
+                  alternative: !(alternative.valid && attrByPath alternative.optionPath false cfg.extras)
+                )
+                alternatives) (mkDefault true)
+            )
+          );
+        }
     )
-
     {
-      assertions = [ ];
+      assertions = [];
 
-      programs.lazyvim.extras = { };
+      programs.lazyvim.extras = {};
     }
-
     # from LazyVim/lua/lazyvim/config/init.lua
     {
       # WARN: each check MUST be a non-empty list
@@ -127,4 +136,4 @@ mkIf cfg.enable (
         }
       ];
     }
-)
+  )

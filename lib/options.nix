@@ -1,5 +1,4 @@
-{ lib }:
-let
+{lib}: let
   inherit (lib.options) mkOption;
   inherit (lib.types) bool;
 
@@ -12,4 +11,4 @@ let
     };
   };
 in
-set
+  set

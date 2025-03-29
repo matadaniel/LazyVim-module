@@ -1,15 +1,14 @@
-self:
-{
+self: {
   config,
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   inherit (lib.attrsets) mapAttrs' nameValuePair;
   inherit (lib.modules) mkIf;
   inherit (lib.options) literalExpression mkOption;
-  inherit (lib.types)
+  inherit
+    (lib.types)
     anything
     attrsOf
     listOf
@@ -18,11 +17,10 @@ let
   inherit (self.lib.generators) toLazySpecs;
 
   cfg = config.programs.lazyvim;
-in
-{
+in {
   options.programs.lazyvim = {
     plugins = mkOption {
-      default = [ ];
+      default = [];
       description = ''
         List of vim plugins to install.
       '';
@@ -63,7 +61,7 @@ in
     };
 
     pluginsSpecs = mkOption {
-      default = { };
+      default = {};
       description = "Attribute set of specs to link into {file}`$XDG_CONFIG_HOME/nvim/lua/plugins/`.";
       # TODO: port rest of editor.lua from README
       example = ''
@@ -87,13 +85,14 @@ in
 
   config = mkIf cfg.enable {
     programs.neovim = {
-      plugins = cfg.plugins;
+      inherit (cfg) plugins;
     };
 
     xdg.configFile =
       mapAttrs' (
-        name: specs: nameValuePair ("nvim/lua/plugins/" + name) { text = toLazySpecs { } specs; }
-      ) cfg.pluginsSpecs
+        name: specs: nameValuePair ("nvim/lua/plugins/" + name) {text = toLazySpecs {} specs;}
+      )
+      cfg.pluginsSpecs
       // mapAttrs' (name: file: nameValuePair ("nvim/lua/plugins/" + name) file) cfg.pluginsFile;
   };
 }

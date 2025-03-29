@@ -5,7 +5,6 @@
   pnpm_9,
   nodejs_22,
 }:
-
 stdenv.mkDerivation (finalAttrs: {
   pname = "typescript-svelte-plugin";
   version = "0.3.41";
@@ -18,7 +17,8 @@ stdenv.mkDerivation (finalAttrs: {
   };
 
   pnpmDeps = pnpm_9.fetchDeps {
-    inherit (finalAttrs)
+    inherit
+      (finalAttrs)
       pname
       version
       src
@@ -33,14 +33,14 @@ stdenv.mkDerivation (finalAttrs: {
     pnpm_9.configHook
   ];
 
-  buildInputs = [ nodejs_22 ];
+  buildInputs = [nodejs_22];
 
   # TODO: find root cause of noBrokenSymlinks error:
   # node_modules/.pnpm/node_modules/typescript-svelte-plugin points to a missing target:
   # packages/typescript-plugin
   dontCheckForBrokenSymlinks = true;
 
-  pnpmWorkspaces = [ "typescript-svelte-plugin" ];
+  pnpmWorkspaces = ["typescript-svelte-plugin"];
   prePnpmInstall = ''
     pnpm config set dedupe-peer-dependents false
   '';

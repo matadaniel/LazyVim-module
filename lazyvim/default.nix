@@ -1,6 +1,5 @@
 self: {
   config,
-  inputs,
   lib,
   pkgs,
   ...
@@ -237,7 +236,6 @@ in {
             builtins.concatStringsSep "\n\t\t\t\t" (
               map ({
                 key,
-                deps,
               }: "\"${key}\",") (
                 builtins.genericClosure {
                   startSet = wrapPlugins (
@@ -247,7 +245,6 @@ in {
                     config.programs.neovim.finalPackage.passthru.packpathDirs.myNeovimPackages.start
                   );
                   operator = {
-                    key,
                     deps,
                   }:
                     wrapPlugins deps;
@@ -306,7 +303,7 @@ in {
           # programs.neovim -> pkgs.wrapNeovimUnstable ->
           # neovimUtils.packDir -> vimUtils.packDir -> vimFarm ->
           # linkFarm name [ { name = "${prefix}/${lib.getName drv}"; path = drv; } ]
-          catppuccin-nvim = pkgs.vimPlugins.catppuccin-nvim.overrideAttrs (oldAttrs: {
+          catppuccin-nvim = pkgs.vimPlugins.catppuccin-nvim.overrideAttrs (_oldAttrs: {
             pname = "catppuccin";
           });
           nvim-treesitter = pkgs.vimPlugins.nvim-treesitter.withPlugins (

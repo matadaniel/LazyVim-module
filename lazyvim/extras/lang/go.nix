@@ -1,4 +1,4 @@
-self: {
+_self: {
   config,
   lib,
   pkgs,

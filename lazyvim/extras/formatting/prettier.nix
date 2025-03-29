@@ -1,24 +1,21 @@
-self:
-{
+self: {
   config,
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   inherit (lib.modules) mkIf;
   inherit (lib.options) mkEnableOption;
 
   cfg = config.programs.lazyvim;
-in
-{
+in {
   options.programs.lazyvim.extras.formatting.prettier = {
     enable = mkEnableOption "the formatting.prettier extra";
   };
 
   config = mkIf cfg.extras.formatting.prettier.enable {
     programs.neovim = {
-      extraPackages = [ pkgs.nodePackages.prettier ];
+      extraPackages = [pkgs.nodePackages.prettier];
     };
   };
 }

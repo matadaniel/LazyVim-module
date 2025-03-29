@@ -5,7 +5,6 @@
   pnpm_8,
   nodejs_22,
 }:
-
 stdenv.mkDerivation (finalAttrs: {
   pname = "astro-ts-plugin";
   version = "1.8.0";
@@ -18,7 +17,8 @@ stdenv.mkDerivation (finalAttrs: {
   };
 
   pnpmDeps = pnpm_8.fetchDeps {
-    inherit (finalAttrs)
+    inherit
+      (finalAttrs)
       pname
       version
       src
@@ -33,9 +33,9 @@ stdenv.mkDerivation (finalAttrs: {
     pnpm_8.configHook
   ];
 
-  buildInputs = [ nodejs_22 ];
+  buildInputs = [nodejs_22];
 
-  pnpmWorkspaces = [ "@astrojs/ts-plugin" ];
+  pnpmWorkspaces = ["@astrojs/ts-plugin"];
   prePnpmInstall = ''
     pnpm config set dedupe-peer-dependents false
   '';

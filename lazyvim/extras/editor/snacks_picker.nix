@@ -1,11 +1,9 @@
-self:
-{
+self: {
   config,
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   inherit (builtins) attrValues;
   inherit (lib.modules) mkIf;
   inherit (lib.options) literalExpression mkEnableOption mkOption;
@@ -13,8 +11,7 @@ let
   inherit (self.lib.options) mkNotExtraOption;
 
   cfg = config.programs.lazyvim;
-in
-{
+in {
   options.programs.lazyvim.extras.editor.snacks_picker = {
     enable = mkEnableOption "the editor.snacks_picker extra";
 
@@ -26,7 +23,7 @@ in
     };
 
     dependencies = mkOption {
-      default = attrValues { inherit (pkgs) fd git ripgrep; };
+      default = attrValues {inherit (pkgs) fd git ripgrep;};
       defaultText = literalExpression "[ pkgs.fd pkgs.git pkgs.ripgrep ]";
       description = "List of packages to make available to Neovim.";
       type = listOf package;
@@ -48,7 +45,7 @@ in
     programs.neovim = {
       extraPackages = cfg.extras.editor.snacks_picker.dependencies;
 
-      plugins = [ pkgs.vimPlugins.snacks-nvim ];
+      plugins = [pkgs.vimPlugins.snacks-nvim];
     };
   };
 }

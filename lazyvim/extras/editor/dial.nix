@@ -1,24 +1,21 @@
-self:
-{
+self: {
   config,
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   inherit (lib.modules) mkIf;
   inherit (lib.options) mkEnableOption;
 
   cfg = config.programs.lazyvim;
-in
-{
+in {
   options.programs.lazyvim.extras.editor.dial = {
     enable = mkEnableOption "the editor.dial extra";
   };
 
   config = mkIf cfg.extras.editor.dial.enable {
     programs.neovim = {
-      plugins = [ pkgs.vimPlugins.dial-nvim ];
+      plugins = [pkgs.vimPlugins.dial-nvim];
     };
   };
 }

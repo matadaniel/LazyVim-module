@@ -1,18 +1,15 @@
-self:
-{
+self: {
   config,
   inputs,
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   inherit (lib.modules) mkIf;
   inherit (lib.options) mkEnableOption;
 
   cfg = config.programs.lazyvim;
-in
-{
+in {
   options.programs.lazyvim.extras.lang.markdown = {
     enable = mkEnableOption "the lang.markdown extra";
   };

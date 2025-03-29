@@ -1,23 +1,20 @@
-self:
-{
+self: {
   config,
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   inherit (lib.modules) mkIf;
   inherit (lib.options) literalExpression mkEnableOption mkOption;
   inherit (lib.types) listOf package;
 
   cfg = config.programs.lazyvim;
-in
-{
+in {
   options.programs.lazyvim.extras.editor.fzf = {
     enable = mkEnableOption "the editor.fzf extra";
 
     dependencies = mkOption {
-      default = builtins.attrValues { inherit (pkgs) fd fzf ripgrep; };
+      default = builtins.attrValues {inherit (pkgs) fd fzf ripgrep;};
       defaultText = literalExpression "[ pkgs.fd pkgs.fzf pkgs.ripgrep ]";
       description = ''
         List of packages to make available to Neovim.
@@ -33,7 +30,7 @@ in
     programs.neovim = {
       extraPackages = cfg.extras.editor.fzf.dependencies;
 
-      plugins = [ pkgs.vimPlugins.fzf-lua ];
+      plugins = [pkgs.vimPlugins.fzf-lua];
     };
   };
 }

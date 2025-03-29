@@ -7,31 +7,27 @@
     systems.url = "github:nix-systems/default-linux";
   };
 
-  outputs =
-    {
-      nixpkgs,
-      self,
-      systems,
-      ...
-    }:
-    {
-      homeManagerModules = {
-        default = self.homeManagerModules.lazyvim;
-        lazyvim = import ./lazyvim self;
-      };
-
-      lib = import ./lib { inherit (nixpkgs) lib; };
-
-      packages = nixpkgs.lib.genAttrs (import systems) (
-        system:
-        let
-          inherit (import nixpkgs { inherit system; }) callPackage;
-        in
-        {
-          astro-ts-plugin = callPackage ./pkgs/astro-ts-plugin { };
-          markdown-toc = callPackage ./pkgs/markdown-toc { };
-          typescript-svelte-plugin = callPackage ./pkgs/typescript-svelte-plugin { };
-        }
-      );
+  outputs = {
+    nixpkgs,
+    self,
+    systems,
+    ...
+  }: {
+    homeManagerModules = {
+      default = self.homeManagerModules.lazyvim;
+      lazyvim = import ./lazyvim self;
     };
+
+    lib = import ./lib {inherit (nixpkgs) lib;};
+
+    packages = nixpkgs.lib.genAttrs (import systems) (
+      system: let
+        inherit (import nixpkgs {inherit system;}) callPackage;
+      in {
+        astro-ts-plugin = callPackage ./pkgs/astro-ts-plugin {};
+        markdown-toc = callPackage ./pkgs/markdown-toc {};
+        typescript-svelte-plugin = callPackage ./pkgs/typescript-svelte-plugin {};
+      }
+    );
+  };
 }

@@ -1,24 +1,21 @@
-self:
-{
+self: {
   config,
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   inherit (lib.modules) mkIf;
   inherit (lib.options) mkEnableOption;
 
   cfg = config.programs.lazyvim;
-in
-{
+in {
   options.programs.lazyvim.extras.lang.tailwind = {
     enable = mkEnableOption "the lang.tailwind extra";
   };
 
   config = mkIf cfg.extras.lang.tailwind.enable {
     programs.neovim = {
-      extraPackages = [ pkgs.tailwindcss-language-server ];
+      extraPackages = [pkgs.tailwindcss-language-server];
 
       # TODO: lib.optional cfg.extras.coding.nvim-cmp.enable
       # plugins = [

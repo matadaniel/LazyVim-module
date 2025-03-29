@@ -31,7 +31,7 @@ Example `flake.nix`:
     };
 
     # add LazyVim-module
-    LazyVim = {
+    lazyvim = {
       url = "github:matadaniel/LazyVim-module";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -56,7 +56,7 @@ Example `home-manager/home.nix`:
 ```nix
 { inputs, ... }:
 {
-  imports = [ inputs.LazyVim.homeManagerModules.default ];
+  imports = [ inputs.lazyvim.homeManagerModules.default ];
 
   programs.lazyvim = {
     enable = true;

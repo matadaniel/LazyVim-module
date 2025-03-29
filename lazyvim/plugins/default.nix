@@ -87,7 +87,7 @@ in
 
   config = mkIf cfg.enable {
     programs.neovim = {
-      plugins = cfg.plugins;
+      inherit (cfg) plugins;
     };
 
     xdg.configFile =

@@ -15,7 +15,12 @@
       ...
     }:
     {
-      homeManagerModules = {
+      homeManagerModules = lib.mapAttrs (
+        name:
+        lib.warn "Obsolete Flake attribute `lazyvim.homeManagerModules.${name}' is used. It was renamed to `lazyvim.homeModules.${name}`'."
+      ) self.homeModules;
+
+      homeModules = {
         default = self.homeManagerModules.lazyvim;
         lazyvim = import ./lazyvim self;
       };

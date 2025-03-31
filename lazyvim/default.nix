@@ -36,6 +36,8 @@ in
   imports = map (module: import module self) [
     ./config
 
+    ./extras/ai/copilot-chat.nix
+
     ./extras/coding/blink.nix
     ./extras/coding/mini-snippets.nix
     ./extras/coding/mini-surround.nix

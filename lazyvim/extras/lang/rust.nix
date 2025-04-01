@@ -8,6 +8,7 @@ self:
 let
   inherit (lib.modules) mkIf;
   inherit (lib.options) mkEnableOption;
+  inherit (lib.lists) optional;
 
   cfg = config.programs.lazyvim;
 in
@@ -18,12 +19,12 @@ in
 
   config = mkIf cfg.extras.lang.rust.enable {
     programs.neovim = {
-      extraPackages = [ pkgs.rust-analyzer ];
+      extraPackages = [pkgs.rust-analyzer] ++ optional cfg.extras.dap.core.enable (with pkgs; [codelldb cpptools]);
 
       plugins =
         [
           (pkgs.vimPlugins.nvim-treesitter.withPlugins (
-            plugins: builtins.attrValues { inherit (plugins) rust; }
+            plugins: builtins.attrValues {inherit (plugins) rust;}
           ))
         ]
         ++ (with pkgs.vimPlugins; [

@@ -19,7 +19,7 @@ in
 
   config = mkIf cfg.extras.lang.rust.enable {
     programs.neovim = {
-      extraPackages = [pkgs.rust-analyzer] ++ optional cfg.extras.dap.core.enable [pkgs.lldb];
+      extraPackages = [pkgs.rust-analyzer] ++ optional cfg.extras.dap.core.enable pkgs.lldb;
 
       plugins =
         [

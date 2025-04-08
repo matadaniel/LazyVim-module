@@ -15,7 +15,7 @@ in {
 
   config = mkIf cfg.extras.editor.leap.enable {
     programs.neovim = {
-      plugins = builtins.attrValues {inherit (pkgs) leap-nvim flit-nvim vim-repeat;};
+      plugins = builtins.attrValues {inherit (pkgs.vimPlugins) leap-nvim flit-nvim vim-repeat;};
     };
   };
 }

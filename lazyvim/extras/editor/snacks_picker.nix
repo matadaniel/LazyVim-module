@@ -6,10 +6,8 @@ self:
   ...
 }:
 let
-  inherit (builtins) attrValues;
   inherit (lib.modules) mkIf;
-  inherit (lib.options) literalExpression mkEnableOption mkOption;
-  inherit (lib.types) listOf package;
+  inherit (lib.options) mkEnableOption;
   inherit (self.lib.options) mkNotExtraOption;
 
   cfg = config.programs.lazyvim;
@@ -23,13 +21,6 @@ in
         enable = mkEnableOption "SQLite3 for frecency";
         extra = mkNotExtraOption;
       };
-    };
-
-    dependencies = mkOption {
-      default = attrValues { inherit (pkgs) fd git ripgrep; };
-      defaultText = literalExpression "[ pkgs.fd pkgs.git pkgs.ripgrep ]";
-      description = "List of packages to make available to Neovim.";
-      type = listOf package;
     };
   };
 
@@ -46,8 +37,6 @@ in
     };
 
     programs.neovim = {
-      extraPackages = cfg.extras.editor.snacks_picker.dependencies;
-
       plugins = [ pkgs.vimPlugins.snacks-nvim ];
     };
   };

@@ -26,7 +26,7 @@ in
       )
       {
         programs.neovim = {
-          extraPackages = [ pkgs.vtsls ] ++ lib.optional cfg.extras.dap.core.enable pkgs.nodejs-slim;
+          extraPackages = [ pkgs.vtsls ];
         };
       };
 }

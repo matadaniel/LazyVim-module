@@ -19,6 +19,7 @@ in
 
   config = mkIf cfg.extras.editor.leap.enable {
     programs.neovim = {
+      # TODO: remove flash-nvim
       plugins = attrValues { inherit (pkgs.vimPlugins) flit-nvim leap-nvim vim-repeat; };
     };
   };

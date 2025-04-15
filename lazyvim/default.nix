@@ -47,6 +47,7 @@ in
     ./extras/editor/dial.nix
     ./extras/editor/fzf.nix
     ./extras/editor/inc-rename.nix
+    ./extras/editor/leap.nix
     ./extras/editor/snacks_explorer.nix
     ./extras/editor/snacks_picker.nix
 

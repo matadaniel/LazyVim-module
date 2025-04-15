@@ -6,6 +6,7 @@ self:
   ...
 }:
 let
+  inherit (builtins) attrValues;
   inherit (lib.modules) mkIf;
   inherit (lib.options) mkEnableOption;
 
@@ -18,7 +19,7 @@ in
 
   config = mkIf cfg.extras.editor.leap.enable {
     programs.neovim = {
-      plugins = builtins.attrValues { inherit (pkgs.vimPlugins) leap-nvim flit-nvim vim-repeat; };
+      plugins = attrValues { inherit (pkgs.vimPlugins) flit-nvim leap-nvim vim-repeat; };
     };
   };
 }

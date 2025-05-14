@@ -36,6 +36,7 @@ in
     ./config
 
     ./extras/ai/copilot-chat.nix
+    ./extras/ai/copilot.nix
 
     ./extras/coding/blink.nix
     ./extras/coding/mini-snippets.nix

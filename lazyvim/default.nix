@@ -105,6 +105,10 @@ in
       internal = true;
       type = nested attrsOf (listOf (attrsOf anything));
     };
+
+    ai_cmp = mkEnableOption "installation of packages for vim.g.ai_cmp" // {
+      default = true;
+    };
   };
 
   config = mkIf cfg.enable {

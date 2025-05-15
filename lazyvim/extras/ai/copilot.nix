@@ -26,7 +26,12 @@ in
             ref = "zbirenbaum/copilot.lua";
             opts.server = {
               type = "binary";
-              custom_server_filepath = getExe pkgs.copilot-language-server-fhs;
+              custom_server_filepath = getExe (
+                if pkgs.stdenv.hostPlatform.isLinux then
+                  pkgs.copilot-language-server-fhs
+                else
+                  pkgs.copilot-language-server
+              );
             };
           }
         ];

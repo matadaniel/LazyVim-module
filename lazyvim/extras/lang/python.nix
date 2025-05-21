@@ -6,6 +6,7 @@ self:
   ...
 }:
 let
+  inherit (builtins) attrValues;
   inherit (lib.lists) optional;
   inherit (lib.modules) mkIf;
   inherit (lib.options) mkEnableOption;
@@ -29,7 +30,7 @@ in
         [
           (nvim-treesitter.withPlugins (
             plugins:
-            builtins.attrValues {
+            attrValues {
               inherit (plugins)
                 ninja
                 rst

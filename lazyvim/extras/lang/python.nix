@@ -24,15 +24,7 @@ in
 
       plugins =
         [
-          (pkgs.vimPlugins.nvim-treesitter.withPlugins (
-            plugins:
-            attrValues {
-              inherit (plugins)
-                ninja
-                rst
-                ;
-            }
-          ))
+          (pkgs.vimPlugins.nvim-treesitter.withPlugins (plugins: attrValues { inherit (plugins) ninja rst; }))
         ]
         ++ optional cfg.extras.dap.core.enable pkgs.vimPlugins.nvim-dap-python
         ++ optional cfg.extras.test.core.enable pkgs.vimPlugins.neotest-python;

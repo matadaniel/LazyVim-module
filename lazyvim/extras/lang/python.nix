@@ -4,7 +4,6 @@ self:
 , pkgs
 , ...
 }:
-
 let
   inherit (lib.modules) mkIf;
   inherit (lib.options) mkEnableOption;
@@ -12,14 +11,12 @@ let
   cfg = config.programs.lazyvim;
 in
 {
-
   options.programs.lazyvim.extras.lang.python = {
     enable = mkEnableOption "the lang.python extra";
   };
 
   config = mkIf cfg.extras.lang.python.enable {
     programs.neovim = {
-
       extraPackages = with pkgs; [
         pyright
         ruff

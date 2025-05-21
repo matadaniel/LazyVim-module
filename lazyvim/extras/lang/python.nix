@@ -27,7 +27,6 @@ in
         (nvim-treesitter.withPlugins (
           plugins: builtins.attrValues {
             inherit (plugins)
-              python
               ninja
               rst;
           }

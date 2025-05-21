@@ -6,6 +6,7 @@ self:
   ...
 }:
 let
+  inherit (lib.lists) optional;
   inherit (lib.modules) mkIf;
   inherit (lib.options) mkEnableOption;
 
@@ -23,19 +24,21 @@ in
         ruff
       ];
 
-      plugins = with pkgs.vimPlugins; [
-        (nvim-treesitter.withPlugins (
-          plugins:
-          builtins.attrValues {
-            inherit (plugins)
-              ninja
-              rst
-              ;
-          }
-        ))
-        neotest-python
-        nvim-dap-python
-      ];
+      plugins =
+        with pkgs.vimPlugins;
+        [
+          (nvim-treesitter.withPlugins (
+            plugins:
+            builtins.attrValues {
+              inherit (plugins)
+                ninja
+                rst
+                ;
+            }
+          ))
+          nvim-dap-python
+        ]
+        ++ optional cfg.extras.test.core.enable pkgs.vimPlugins.neotest-python;
       # TODO: ++ optional cfg.extras.editor.telescope.enable (
       #   pkgs.vimUtils.buildVimPlugin {
       #     pname = "venv-selector.nvim";

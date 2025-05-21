@@ -21,7 +21,6 @@ in
       extraPackages = with pkgs; [
         pyright
         ruff
-        python312Packages.debugpy
       ];
 
       plugins = with pkgs.vimPlugins; [

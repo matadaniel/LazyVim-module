@@ -33,23 +33,23 @@ in
               ;
           }
         ))
-        (pkgs.vimUtils.buildVimPlugin {
-          pname = "venv-selector.nvim";
-          version = "2024-09-15";
-          src = pkgs.fetchFromGitHub {
-            owner = "linux-cultist";
-            repo = "venv-selector.nvim";
-            rev = "e82594274bf7b54387f9a2abe65f74909ac66e97";
-            sha256 = "0d2lzx5b1jc0zq92ziy83apxak6b2rjsgi8nz6jwyy58l96lhb03";
-          };
-          meta.homepage = "https://github.com/linux-cultist/venv-selector.nvim/";
-          nvimSkipModule = [
-            "venv-selector.cached_venv"
-          ];
-        })
         neotest-python
         nvim-dap-python
       ];
+      # TODO: ++ optional cfg.extras.editor.telescope.enable (
+      #   pkgs.vimUtils.buildVimPlugin {
+      #     pname = "venv-selector.nvim";
+      #     version = "2024-09-15";
+      #     src = pkgs.fetchFromGitHub {
+      #       owner = "linux-cultist";
+      #       repo = "venv-selector.nvim";
+      #       rev = "e82594274bf7b54387f9a2abe65f74909ac66e97";
+      #       sha256 = "0d2lzx5b1jc0zq92ziy83apxak6b2rjsgi8nz6jwyy58l96lhb03";
+      #     };
+      #     meta.homepage = "https://github.com/linux-cultist/venv-selector.nvim/";
+      #     nvimSkipModule = [ "venv-selector.cached_venv" ];
+      #   }
+      # );
     };
   };
 }

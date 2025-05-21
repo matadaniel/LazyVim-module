@@ -60,6 +60,7 @@ in
     ./extras/lang/markdown.nix
     ./extras/lang/nix.nix
     ./extras/lang/prisma.nix
+    ./extras/lang/python.nix
     ./extras/lang/svelte.nix
     ./extras/lang/tailwind.nix
     ./extras/lang/typescript.nix
@@ -119,7 +120,12 @@ in
       extraLuaConfig = ''
         ${
           let
-            inherit (cfg.extras.lang) astro svelte typescript;
+            inherit (cfg.extras.lang)
+              astro
+              python
+              svelte
+              typescript
+              ;
 
             selfPkgs = self.packages.${pkgs.stdenv.hostPlatform.system};
 
@@ -138,6 +144,15 @@ in
                 cond = (astro.enable || svelte.enable || typescript.enable) && cfg.extras.dap.core.enable;
                 name = "packages/js-debug-adapter/js-debug/src/dapDebugServer.js";
                 path = "${pkgs.vscode-js-debug}/lib/node_modules/js-debug/dist/src/dapDebugServer.js";
+              }
+              {
+                cond = python.enable && cfg.extras.dap.core.enable;
+                name =
+                  if pkgs.stdenv.hostPlatform.isWindows then
+                    "packages/debugpy/venv/Scripts/pythonw.exe"
+                  else
+                    "packages/debugpy/venv/bin/python";
+                path = (pkgs.python3.withPackages (ps: [ ps.debugpy ])).interpreter;
               }
             ];
 

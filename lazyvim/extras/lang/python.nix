@@ -20,15 +20,11 @@ in
 
   config = mkIf cfg.extras.lang.python.enable {
     programs.neovim = {
-      extraPackages = with pkgs; [
-        pyright
-        ruff
-      ];
+      extraPackages = attrValues { inherit (pkgs) pyright ruff; };
 
       plugins =
-        with pkgs.vimPlugins;
         [
-          (nvim-treesitter.withPlugins (
+          (pkgs.vimPlugins.nvim-treesitter.withPlugins (
             plugins:
             attrValues {
               inherit (plugins)

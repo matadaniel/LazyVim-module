@@ -36,8 +36,8 @@ in
                 ;
             }
           ))
-          nvim-dap-python
         ]
+        ++ optional cfg.extras.dap.core.enable pkgs.vimPlugins.nvim-dap-python
         ++ optional cfg.extras.test.core.enable pkgs.vimPlugins.neotest-python;
       # TODO: ++ optional cfg.extras.editor.telescope.enable (
       #   pkgs.vimUtils.buildVimPlugin {

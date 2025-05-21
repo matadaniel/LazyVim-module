@@ -1,8 +1,9 @@
 self:
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 let
   inherit (lib.modules) mkIf;
@@ -25,10 +26,12 @@ in
 
       plugins = with pkgs.vimPlugins; [
         (nvim-treesitter.withPlugins (
-          plugins: builtins.attrValues {
+          plugins:
+          builtins.attrValues {
             inherit (plugins)
               ninja
-              rst;
+              rst
+              ;
           }
         ))
         (pkgs.vimUtils.buildVimPlugin {

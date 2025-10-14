@@ -42,7 +42,7 @@ in
       plugins =
         [ pkgs.vimPlugins.copilot-lua ]
         ++ optionals cfg.ai_cmp (
-          optional cfg.extras.coding.blink.enable pkgs.vimPlugins.blink-cmp-copilot
+          optional cfg.extras.coding.blink.enable pkgs.vimPlugins.blink-copilot
           # TODO: ++ optional cfg.extras.coding.nvim-cmp.enable pkgs.vimPlugins.copilot-cmp
         );
     };

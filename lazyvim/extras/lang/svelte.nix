@@ -17,6 +17,13 @@ in
   };
 
   config = mkIf cfg.extras.lang.svelte.enable {
+    programs.lazyvim = {
+      masonPackages = {
+        "svelte-language-server/node_modules/typescript-svelte-plugin" =
+          self.packages.${pkgs.stdenv.hostPlatform.system}.typescript-svelte-plugin;
+      };
+    };
+
     programs.neovim = {
       extraPackages = [ pkgs.svelte-language-server ];
 

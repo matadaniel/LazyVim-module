@@ -72,6 +72,11 @@ in
           }
         ];
       };
+
+      masonPackages = {
+        "astro-language-server/node_modules/@astrojs/ts-plugin" =
+          self.packages.${pkgs.stdenv.hostPlatform.system}.astro-ts-plugin;
+      };
     };
 
     programs.neovim = {

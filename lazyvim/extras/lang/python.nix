@@ -7,6 +7,7 @@ self:
 }:
 let
   inherit (builtins) attrValues;
+  inherit (lib.attrsets) optionalAttrs;
   inherit (lib.lists) optional;
   inherit (lib.modules) mkIf;
   inherit (lib.options) mkEnableOption;
@@ -19,6 +20,18 @@ in
   };
 
   config = mkIf cfg.extras.lang.python.enable {
+    programs.lazyvim = {
+      masonPackages = optionalAttrs cfg.extras.dap.core.enable {
+        ${
+          if pkgs.stdenv.hostPlatform.isWindows then
+            "debugpy/venv/Scripts/pythonw.exe"
+          else
+            "debugpy/venv/bin/python"
+        } =
+          (pkgs.python3.withPackages (ps: [ ps.debugpy ])).interpreter;
+      };
+    };
+
     programs.neovim = {
       extraPackages = attrValues { inherit (pkgs) pyright ruff; };
 

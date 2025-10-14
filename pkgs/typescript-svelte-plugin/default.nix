@@ -25,6 +25,7 @@ stdenv.mkDerivation (finalAttrs: {
       pnpmWorkspaces
       prePnpmInstall
       ;
+    fetcherVersion = 1;
     hash = "sha256-uIb5yZEqf/vjxblOaFwUzLObW1np09abYx6BNQ5uIIk=";
   };
 
